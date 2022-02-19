@@ -1,0 +1,11 @@
+
+replicaCount: 1
+
+different_images:
+  - image: ghcr.io/javierlgroba/task-list/frontend
+    name: frontend
+    environment:
+      - name: NGINX_PORT
+        value: "8081"
+  - image: ghcr.io/javierlgroba/task-list/backend
+    name: backend
