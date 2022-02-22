@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-deployment
+  labels:
+    app: task-list
+spec:
+  replicas: { { .Values.replicaCount } }
+  selector:
+    matchLabels:
+      app: task-list
+  template:
+    metadata:
+      labels:
+        app: task-list
+    spec:
+      hostNetwork: true
+      containers:
+        - image: ghcr.io/javierlgroba/task-list/db
+          name: database
+          environment:
+            - POSTGRES_USER={{ .Secrets.postgresUser }}
+            - POSTGRES_PASSWORD={{ .Secrets.postgresPassword }}
+            - POSTGRES_DB={{ .Secrets.postgresDB }}
+            - API_POSTGRES_USER={{ .Secrets.apiPostgresUser }}
+            - API_POSTGRES_PASSWORD={{ .Secrets.apiPostgresPassword }}
+            - PGDATA={{ .Secrets.pgData }}
+          volumes:
+            - {{ .Secrets.localData }}:{{ .Secrets.pgData }}
