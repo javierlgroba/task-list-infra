@@ -1,5 +1,4 @@
-
-replicaCount: 1
+replicaCount: 3
 
 different_images:
   - image: ghcr.io/javierlgroba/task-list/frontend
