@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  db:
+    image: ghcr.io/javierlgroba/task-list/db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - API_POSTGRES_USER=apiuser
+      - API_POSTGRES_PASSWORD=apipassword
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./data:/var/lib/postgresql/data
