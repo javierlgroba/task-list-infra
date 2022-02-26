@@ -3,27 +3,37 @@ kind: Deployment
 metadata:
   name: database-deployment
   labels:
-    app: task-list
+    app: { { .Values.app } }
+    tier: { { .Values.tier } }
 spec:
   replicas: { { .Values.replicaCount } }
   selector:
     matchLabels:
-      app: task-list
+      app: { { .Values.app } }
+      tier: { { .Values.tier } }
   template:
     metadata:
       labels:
-        app: task-list
+        app: { { .Values.app } }
+        tier: { { .Values.tier } }
     spec:
       hostNetwork: true
       containers:
         - image: ghcr.io/javierlgroba/task-list/db
           name: database
-          environment:
-            - POSTGRES_USER={{ .Secrets.postgresUser }}
-            - POSTGRES_PASSWORD={{ .Secrets.postgresPassword }}
-            - POSTGRES_DB={{ .Secrets.postgresDB }}
-            - API_POSTGRES_USER={{ .Secrets.apiPostgresUser }}
-            - API_POSTGRES_PASSWORD={{ .Secrets.apiPostgresPassword }}
-            - PGDATA={{ .Secrets.pgData }}
-          volumes:
-            - {{ .Secrets.localData }}:{{ .Secrets.pgData }}
+          env:
+            - name: POSTGRES_USER
+              value: { { .Values.postgresUser } }
+            - name: POSTGRES_PASSWORD
+              value: { { .Values.postgresPassword } }
+            - name: POSTGRES_DB
+              value: { { .Values.postgresDB } }
+            - name: API_POSTGRES_USER
+              value: { { .Values.apiPostgresUser } }
+            - name: API_POSTGRES_PASSWORD
+              value: { { .Values.apiPostgresPassword } }
+            - name: PGDATA
+              value: { { .Values.pgData } }
+          volumeMounts:
+            - name: data-vol
+              mountPath: { { .Values.pgData } }

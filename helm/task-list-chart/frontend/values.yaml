@@ -1,0 +1,4 @@
+replicaCount: 3
+app: task-list
+tier: frontend
+nginxPort: "8081"

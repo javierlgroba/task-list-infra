@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: { { .Values.app } }
+    tier: { { .Values.tier } }
+spec:
+  replicas: { { .Values.replicaCount } }
+  selector:
+    matchLabels:
+      app: { { .Values.app } }
+      tier: { { .Values.tier } }
+  template:
+    metadata:
+      labels:
+        app: { { .Values.app } }
+        tier: { { .Values.tier } }
+    spec:
+      hostNetwork: true
+      containers:
+        - image: ghcr.io/javierlgroba/task-list/frontend
+          name: frontend
+          imagePullPolicy: Always
+          env:
+            - name: NGINX_PORT
+              value: { { .Values.nginxPort } }

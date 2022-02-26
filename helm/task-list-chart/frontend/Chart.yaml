@@ -1,0 +1,9 @@
+apiVersion: v2
+name: task-list
+description: A Helm chart for the Deployment of the frontend and backend of the task-list application
+
+type: application
+
+version: 0.1.0
+
+appVersion: "0.1.0"
